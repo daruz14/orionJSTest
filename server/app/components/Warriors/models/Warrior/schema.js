@@ -7,8 +7,10 @@ export default {
   },
   attack: {
     type: Number,
+    optional: true,
   },
   defense: {
     type: Number,
+    optional: true,
   }
 }
