@@ -10,16 +10,14 @@ export default resolver({
   async resolve({ nameFirstWarrior, nameSecondWarrior }, viewer) {
     if (!nameFirstWarrior || !nameSecondWarrior) return 'Falta un guerrero'
 
-    const firstWarrior = await Warriors.findOne({ name: nameFirstWarrior })
-    const secondWarrior = await Warriors.findOne({ name: nameSecondWarrior })
-
-    let result = 'La pelea termino en empate'
+    const [firstWarrior, secondWarrior] = await Promise.all([
+    Warriors.findOne({ name: nameFirstWarrior }), Warriors.findOne({ name: nameSecondWarrior })])
 
     if (firstWarrior.attack > secondWarrior.defense) {
-      result = `Victoria para ${firstWarrior.name}`
+      return `Victoria para ${firstWarrior.name}`
     } else if (secondWarrior.attack > firstWarrior.defense) {
-      result = `Victoria para ${secondWarrior.name}`
+      return `Victoria para ${secondWarrior.name}`
     }
-    return result
+    return 'La pelea termino en empate'
   }
 })
